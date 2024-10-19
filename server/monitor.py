@@ -1,5 +1,11 @@
 import cv2
 from ultralytics import solutions
+import threading
+
+def reset(self):
+	self.classwise_counts = {}
+
+solutions.ObjectCounter.reset = reset
 
 class Monitor:
 	def __init__(self, intersection_id, direction):
@@ -22,15 +28,22 @@ class Monitor:
 		line_points = [(0, FRAME_HEIGHT - 200), (FRAME_WIDTH, FRAME_HEIGHT - 200), (FRAME_WIDTH, FRAME_HEIGHT - 100), (0, FRAME_HEIGHT - 100)]
 		counter = solutions.ObjectCounter(show=True, region=line_points, model=model_path, classes=classes_to_count)
 
-		while cap.isOpened():
+		def update():
+			print('UPDATE ', counter.classwise_counts)
+			counter.reset()
+			threading.Timer(3, update).start()
+		
+		threading.Timer(3, update).start()
+
+		while cap.isOpened():	
 			success, im0 = cap.read()
 			if not success:
 				print("Video frame is empty or video processing has been successfully completed.")
 				break
 			im0 = counter.count(im0)
 			video_writer.write(im0)
-			print(counter.classwise_counts)
 
 		cap.release()
 		video_writer.release()
 		cv2.destroyAllWindows()
+	
