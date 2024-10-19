@@ -1,10 +1,18 @@
 from monitor import Monitor
+import threading
 
 def main():
-	monitor_1_1 = Monitor(1, 1)
-	monitor_1_2 = Monitor(1, 2)
+	T = 3 # update frequency
+	monitor_1_1 = Monitor(1, 1, T)
+
+	def listener(monitor):
+		print('[TRAFFIC]', monitor.get_traffic())
+
+		if monitor.get_is_active():
+			threading.Timer(T, listener, args=(monitor_1_1,)).start()
+
+	threading.Timer(T, listener, args=(monitor_1_1,)).start()
 	monitor_1_1.start()
-	monitor_1_2.start()
 
 if __name__ == '__main__':
 	main()
