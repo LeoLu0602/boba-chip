@@ -15,6 +15,9 @@
 
 ## Technologies
 
+ - Frontend: [Next.js](https://nextjs.org/)
+ - Backend: [Supabase](https://supabase.com/), [Python](https://www.python.org/), [YOLO](https://docs.ultralytics.com/)
+
 ## Collaboration Guide
 
 ### Folder Structure
