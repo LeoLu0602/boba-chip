@@ -71,5 +71,3 @@ git push
 Submit pull requests when your feature is finished. Select LeoLu0602 as the reviewer. Solve merge conflicts with the reviewer if there are any. Hope there won't be many. 🤞
 
 ## Approach
-
-## Status
